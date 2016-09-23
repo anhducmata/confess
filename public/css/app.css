@@ -3,6 +3,14 @@ background-color: #e9ebee;
 color: #333!important; 
 font-size: 12px!important;
 }
+.label-style{
+     position: absolute;
+    padding-top: 15px;
+    padding-right: 0px;
+    margin-right: 20px;
+    cursor: pointer;
+    color: #3097d1;   
+}
 .label { border-radius: 2px!important; 
     text-shadow: none; 
     font-size: 11px; 

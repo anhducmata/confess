@@ -57,40 +57,43 @@ Home
                         <div class="post-description">
                             <p class="content">{{ $a->body }}</p>
                             <hr style="margin-bottom: 0px!important;">
+                        <script>
+                            $(document).on('click', '#liking{{$a->id}}', function(){
+                                alert('ok');
+                            });
+                        </script>
                             <div class="stats">
-                                <a href="#" class="btn btn-default stat-item"  style="border-color: #fff;padding-right: 0px!important;">
+                                <i  class="btn btn-default stat-item" id="liking{{$a->id}}"  style="border-color: #fff;padding-right: 0px!important;">
                                     <img src="/images/like.png" style="width: 20px; height: 20px;" aria-hidden="true" 
                                     @if ($a->like->contains('user_id',Auth::user()->id))
                                         style="color: #F22EBE;" 
                                     @endif></img>
-                                </a>
-                                <label style="position: absolute;padding-top: 15px;padding-right: 0px;margin-right: 20px;">Thích</label>
-
+                                </i>
+                                <label id="liking{{$a->id}}" class="label-style"    >Thích
+                                </label>
 
                                 <a href="#" class="btn btn-default stat-item" style="border-color: #fff;margin-left: 50px;    padding-right: 0px;" >
                                     <img src="/images/comment.png" style="width: 20px; height: 20px; margin-top: 3px;" aria-hidden="true" ></img>
                                 </a>
-                                <label style="position: absolute;padding-top: 15px;padding-right: 0px;margin-right: 20px;">Bình luận</label>
+                                <label for="body{{$a->id}}" class="label-style">Bình luận</label>
 
 
                                 <a href="#" class="btn btn-default stat-item " style="border-color: #fff; margin-left: 60px;    padding-right: 0px;" >
                                     <img src="/images/share.png" style="width: 20px; height: 20px; margin-top: 3px;" aria-hidden="true" ></img>
                                     
-                                </a><label style="position: absolute;padding-top: 15px;padding-right: 0px;margin-right: 20px;padding-left: 5px;">Chia sẻ</label>
+                                </a><label class="label-style" class="label-style">Chia sẻ</label>
                             </div>
                         </div>
                             
                         <hr style="margin-top: 0px;margin-bottom: 0px;">
-                        <div class="stat-info" style="background-color: hsla(0, 0%, 60%, 0.25)">
-                        <span class="label label-primary" style="margin-left: 25px"> Bạn và {{ $a->like->count() - 1  }} người thích</span>
-                        <span class="label label-inverse" style="margin-left: 4px"> {{ $a->comment->count() }} bình luận</span>
-                        <span class="label label-warning" style="margin-left: 4px"> {{ $a->share->count() }} lượt chia sẻ</span>
+                        <div class="stat-info" style="background-color: rgba(204, 204, 204, 0.46);    border: 0.2px #fcf8e3 solid;">
+                        <a  style="margin-left: 25px;cursor: pointer ; text-decoration: none"><img src="images/thumbs-up.png" style="width: 15px; height: 15px; margin-right: 6px; cursor: pointer ;" alt="">Bạn và 4 người khác đã thích</a>
                         </div>
-                        <div class="post-footer">
+                       
+                        <div class="post-footer" style="padding-top: 5px;">
+                            <a href="">Xem các trả lời trước</a>
                             <ul class="comments-list second{{$a->id}}" id="comment-list{{$a->id}}">
                                 @foreach ($a->comment as $c)
-
-
                                 @include('ajax.comment_Delete')
                                 @include('ajax.comment_Like')
 
@@ -169,7 +172,16 @@ Home
                                 {{-- <input class="form-control"  autocomplete="off" id="comments" placeholder="Viết bình luận..." type="text"> --}}
                                 {!! Form::hidden('user_id', Auth::user()->id, ['id' => 'user_id']) !!}
                                 {!! Form::hidden('status_id', $a->id, ['id' => 'status_id'.$a->id]) !!}
-                                {!! Form::text('body', null, ['id' => 'body'.$a->id ,'class' => 'form-control', 'placeholder'=> 'Bình luận', 'autocomplete' => 'off']) !!}
+                                <img src="{{Auth::user()->avatar}}" style="width: 25px;
+                                                                            height: 25px;
+                                                                            position: absolute;
+                                                                            border-radius: 3px;
+                                                                            top: 3px;
+                                                                            z-index: 999;
+                                                                            left: 3px;" alt="">
+                                {!! Form::text('body', null, ['id' => 'body'.$a->id ,'class' => 'form-control', 'placeholder'=> 'Bình luận...', 'autocomplete' => 'off', 'style' => 'height: 25px;border-radius: 2px!important;    height: 32px;
+                                    border-radius: 3px!important;
+                                    padding-left: 40px;']) !!}
                                 {!! Form::submit('submit', ['style' => 'display: none']) !!}
                                 <script>
                                 $( 'form#addcomment{{$a->id}}' ).submit(function(e) {
