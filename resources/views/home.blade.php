@@ -30,18 +30,7 @@ Home
                                 </div>
                                 {{-- must '==='  --}}
                                 <h6 class="text-muted time">
-
-                                @if ( $a->privacy === 0)
-                                <a id="popover-privacy{{$a->id}}" tabindex="0" class="popover-privacy" data-html="true" data-toggle="popover{{$a->id}}" data-trigger="focus" title="Riêng Tư" data-content='<a id="privacy{{$a->id}}" style="text-decoration: none; color: #333;font-size: 12px;" class="e"  title=""><i class="fa fa-globe cope"></i><i class="fa fa-exchange" aria-hidden="true"></i><i class="fa fa-lock cope"></i></a>'><i id="privacyicon{{$a->id}}" class="fa fa-lock cope"></i></a>
-                                
-
-                                @else
-                                @if ( $a->privacy === 1)
-                                <a id="popover-privacy{{$a->id}}" tabindex="0" class="popover-privacy" data-html="true" data-toggle="popover{{$a->id}}" data-trigger="focus" title="Riêng Tư" data-content='<a id="privacy{{$a->id}}" style="text-decoration: none; color: #333;font-size: 12px;" class="e"  title=""><i class="fa fa-lock cope"></i><i class="fa fa-exchange" aria-hidden="true"></i><i class="fa fa-globe cope"></i></a>'><i id="privacyicon{{$a->id}}" class="fa fa-globe cope"></i></a>
-                                
-                                @endif
-                                
-                                @endif
+                                <i class="fa fa-clock-o" title="{{$a->created_at }}" aria-hidden="true"></i>
                                 <i class="cope">{{ $a->timeAgo($a->created_at) }}</i>
                                 </h6>
                             </div>
@@ -62,32 +51,40 @@ Home
                                     
                                 </div>
                                 
-                                </<i></i>
+                                </i>
                             </div>
                         </div>
                         <div class="post-description">
                             <p class="content">{{ $a->body }}</p>
+                            <hr style="margin-bottom: 0px!important;">
                             <div class="stats">
-                                <a href="#" class="btn btn-default stat-item"  style="border-color: #fff;">
-                                    <i class="fa fa-heart" aria-hidden="true" 
+                                <a href="#" class="btn btn-default stat-item"  style="border-color: #fff;padding-right: 0px!important;">
+                                    <img src="/images/like.png" style="width: 20px; height: 20px;" aria-hidden="true" 
                                     @if ($a->like->contains('user_id',Auth::user()->id))
                                         style="color: #F22EBE;" 
-                                    @endif></i>
-                                    {{ $a->like->count() }}
+                                    @endif></img>
                                 </a>
-                                <a href="#" class="btn btn-default stat-item " style="border-color: #fff;" >
-                                    <i class="fa fa-comment" aria-hidden="true"></i>
-                                    {{ $a->comment->count() }}
+                                <label style="position: absolute;padding-top: 15px;padding-right: 0px;margin-right: 20px;">Thích</label>
+
+
+                                <a href="#" class="btn btn-default stat-item" style="border-color: #fff;margin-left: 50px;    padding-right: 0px;" >
+                                    <img src="/images/comment.png" style="width: 20px; height: 20px; margin-top: 3px;" aria-hidden="true" ></img>
                                 </a>
-                                <a href="#" class="btn btn-default stat-item " style="border-color: #fff;" >
-                                    <i class="fa fa-share-alt" aria-hidden="true" ></i>
-                                    {{ $a->share->count() }}
-                                </a>
-                                
-                                <a  href="" title="" style="font-size: 13.5px;">
-                                </a>
-                                
+                                <label style="position: absolute;padding-top: 15px;padding-right: 0px;margin-right: 20px;">Bình luận</label>
+
+
+                                <a href="#" class="btn btn-default stat-item " style="border-color: #fff; margin-left: 60px;    padding-right: 0px;" >
+                                    <img src="/images/share.png" style="width: 20px; height: 20px; margin-top: 3px;" aria-hidden="true" ></img>
+                                    
+                                </a><label style="position: absolute;padding-top: 15px;padding-right: 0px;margin-right: 20px;padding-left: 5px;">Chia sẻ</label>
                             </div>
+                        </div>
+                            
+                        <hr style="margin-top: 0px;margin-bottom: 0px;">
+                        <div class="stat-info" style="background-color: hsla(0, 0%, 60%, 0.25)">
+                        <span class="label label-primary" style="margin-left: 25px"> Bạn và {{ $a->like->count() - 1  }} người thích</span>
+                        <span class="label label-inverse" style="margin-left: 4px"> {{ $a->comment->count() }} bình luận</span>
+                        <span class="label label-warning" style="margin-left: 4px"> {{ $a->share->count() }} lượt chia sẻ</span>
                         </div>
                         <div class="post-footer">
                             <ul class="comments-list second{{$a->id}}" id="comment-list{{$a->id}}">
@@ -180,14 +177,16 @@ Home
                                 var user_id = $('#user_id').val();
                                 var body = $('#body{{$a->id}}').val();
                                 var status_id = $('#status_id{{$a->id}}').val();
-                                
+                                var comment_block = '<li class="comment" id="comment-row"> <a class="pull-left" href="#"> <img class="avatar" src="{{ Auth::user()->avatar }}" alt="avatar"> </a> <div class="comment-body"> <div class="comment-heading"> <a href="{{ url('/user/'. Auth::user()->id) }}" title=""><h4 class="user"> {{  Auth::user()->name }} </h4></a>· <p class="inline">'+body+'</p> </div> <div class="comment-heading" link="blue" id="comment-heading"><a class="link" title="" id="comment-reply">Trả lời</a> · <a class="link" id="comment-delete" title="Delete">Xóa</a> · </i> <h5 class="time"> vừa xong </h5> </div> </div> </li>';
+                                $('#comment-list{{$a->id}}').append(comment_block);
+                                $('input#body{{$a->id}}').val('');
                                 $.ajax({
                                 type: "POST",
                                 url: "{{route('post.comment.create')}}",
                                 data: {user_id:user_id, body:body, status_id:status_id},
                                 success: function( data ) {
                                 $("#comment-list{{$a->id}}").load(location.href + " #comment-list{{$a->id}}");
-                                $('input#body{{$a->id}}').val('');
+                                
                                 }
                                 });
                                 });
