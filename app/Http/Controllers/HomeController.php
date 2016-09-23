@@ -41,11 +41,10 @@ class HomeController extends Controller
     {
               if(Request::ajax()){
             $status_id = Input::get('status_id');
-            
-            $status          =  Status::find($status_id);
-
+            $status    =  Status::find($status_id);
             $status->delete();
-            $comment = Comment::where('status_id', $status_id);
+
+            $comment   = Comment::where('status_id', $status_id);
             $comment->delete();
 
 
@@ -64,8 +63,8 @@ class HomeController extends Controller
     public function postPrivacyChange()
     {
               if(Request::ajax()){
-            $privacy   = Input::get('key');
-            $status_id = Input::get('status_id');
+            $privacy         = Input::get('key');
+            $status_id       = Input::get('status_id');
             
             $status          =  Status::find($status_id);
             $status->privacy = $privacy;
