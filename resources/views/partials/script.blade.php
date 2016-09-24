@@ -41,7 +41,7 @@
              }
              
             },
-            url: "{{route('post.privacy')}}",
+            url: "{{route('post.status.privacy')}}",
             cache:false
           });
         });
@@ -84,7 +84,7 @@
             success: function(msg) { 
             $('#post_panel{{$a->id}}').fadeTo('medium', 0).slideUp();
             },
-            url: "{{route('post.delete')}}",
+            url: "{{route('post.status.delete')}}",
             cache:false
           });
         });

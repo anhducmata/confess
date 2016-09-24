@@ -8,7 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="/js/jquery.min.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="/js/bootstrap-select.min.js" type="text/javascript" charset="utf-8" async defer></script>
     <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
     <title>
         @yield('title')
     </title>

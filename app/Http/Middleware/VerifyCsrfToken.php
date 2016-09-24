@@ -13,13 +13,17 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'home',
-        '/home/action/postprivacychange',
-        '/home/action/postdelete',
-        '/home/action/poststatus',
+        
+        /*Status*/
+        '/home/action/status/like',
+        '/home/action/status/create',
+        '/home/action/status/privacy',
+        '/home/action/status/delete',
+
+        /*Comment*/
         '/home/action/comment/create',
         '/home/action/comment/delete',
         '/home/action/comment/like',
-        '/home/action/comment/unlike',
-        '/home/action/status/like'
+        '/home/action/comment/unlike'
     ];
 }

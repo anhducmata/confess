@@ -18,24 +18,26 @@ Route::get('/home', [
 	'uses' => 'HomeController@index',
 	'as'   => 'home'
 	]);
-Route::post('/home/action/poststatus', [
-	'uses' => 'HomeController@postStatus',
-	'as'   => 'post.status'
+
+/*Status*/
+Route::post('/home/action/status/create', [
+	'uses' => 'HomeController@postCreate',
+	'as'   => 'post.status.create'
 	]);
-Route::post('/home/action/postprivacychange', [
+Route::post('/home/action/status/privacy', [
 	'uses' => 'HomeController@postPrivacyChange',
-	'as'   => 'post.privacy'
+	'as'   => 'post.status.privacy'
 	]);
-Route::post('/home/action/postdelete', [
+Route::post('/home/action/status/delete', [
 	'uses' => 'HomeController@postDelete',
-	'as'   => 'post.delete'
+	'as'   => 'post.status.delete'
 	]);
 Route::post('/home/action/status/like',[
 	'uses' => 'StatusController@postLike',
 	'as'   => 'post.status.like'
 ]);
 
-
+/*Comment*/
 Route::post('/home/action/comment/create', [
 	'uses' => 'CommentController@create',
 	'as'   => 'post.comment.create'

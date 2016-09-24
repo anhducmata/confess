@@ -32,6 +32,7 @@ Home
                                 <h6 class="text-muted time">
                                 <i class="fa fa-clock-o" title="{{$a->created_at }}" aria-hidden="true"></i>
                                 <i class="cope">{{ $a->timeAgo($a->created_at) }}</i>
+
                                 </h6>
                             </div>
                             <div class="option pull-right" align="right">

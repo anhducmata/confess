@@ -8,7 +8,7 @@
             <!-- FORM -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="home"> 
-                {{ Form::open(array('method'=>'post','url' => route('post.status'), 'id'=>'statusBox')) }}
+                {{ Form::open(array('method'=>'post','url' => route('post.status.create'), 'id'=>'statusBox')) }}
             <div class="panel-body ">
                    {{ Form::token() }}
                     <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
@@ -62,7 +62,7 @@
       var privacy = $('#privacy').val();
       $.ajax({
             type: "POST",
-            url: "{{route('post.status')}}",
+            url: "{{route('post.status.create')}}",
             data: {user_id:user_id, body:body, privacy:privacy},
             success: function( data ) {
             $('#loading').fadeOut(1000);
