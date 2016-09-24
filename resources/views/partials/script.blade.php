@@ -89,10 +89,3 @@
           });
         });
   </script>
-  <script>
-var auto_refresh = setInterval(
-function ()
-{
-$("#comment-list{{$a->id}}").load(location.href + " #comment-list{{$a->id}}");
-}, 100000000); // refresh every 10000 milliseconds
-  </script>

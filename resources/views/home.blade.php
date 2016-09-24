@@ -54,51 +54,104 @@ Home
                                 </i>
                             </div>
                         </div>
-                        <div class="post-description">
+                        <div class="post-description" id="post-description{{$a->id}}">
                             <p class="content">{{ $a->body }}</p>
                             <hr style="margin-bottom: 0px!important;">
                         <script>
                             $(document).on('click', '#liking{{$a->id}}', function(){
-                                alert('ok');
+                                          $.ajaxSetup({
+                                              headers: {
+                                                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                              }
+                                          });
+                                          var status_id = '{{ $a->id }}';
+                                          var user_id = '{{ Auth::user()->id}}';
+                                          $.ajax({
+                                            type: 'POST',
+                                            data: {status_id:status_id, user_id:user_id},
+                                            success: function(msg) {
+                                                $("#reload-like{{$a->id}}").load(location.href + " #reload-like{{$a->id}}");
+                                            },
+                                            url: "{{route('post.status.like')}}",
+                                            cache:false
+                                          });
                             });
                         </script>
+                        <div id="reload-like{{$a->id}}">
                             <div class="stats">
                                 <i  class="btn btn-default stat-item" id="liking{{$a->id}}"  style="border-color: #fff;padding-right: 0px!important;">
-                                    <img src="/images/like.png" style="width: 20px; height: 20px;" aria-hidden="true" 
+                                    <img src="/images/like.png" style="width: 16px; height: 16px;" aria-hidden="true" 
                                     @if ($a->like->contains('user_id',Auth::user()->id))
                                         style="color: #F22EBE;" 
                                     @endif></img>
                                 </i>
-                                <label id="liking{{$a->id}}" class="label-style"    >Thích
+                                <label id="liking{{$a->id}}" class="label-style">
+                                @if ($a->like->contains('user_id', Auth::user()->id))
+                                    Bỏ thích
+                                @else
+                                    Thích
+                                @endif
                                 </label>
 
                                 <a href="#" class="btn btn-default stat-item" style="border-color: #fff;margin-left: 50px;    padding-right: 0px;" >
-                                    <img src="/images/comment.png" style="width: 20px; height: 20px; margin-top: 3px;" aria-hidden="true" ></img>
+                                    <img src="/images/comment.png" style="width: 16px; height: 16px; margin-top: 3px;" aria-hidden="true" ></img>
                                 </a>
                                 <label for="body{{$a->id}}" class="label-style">Bình luận</label>
 
 
                                 <a href="#" class="btn btn-default stat-item " style="border-color: #fff; margin-left: 60px;    padding-right: 0px;" >
-                                    <img src="/images/share.png" style="width: 20px; height: 20px; margin-top: 3px;" aria-hidden="true" ></img>
-                                    
+                                    <img src="/images/share.png" style="width: 14px; height: 14px; margin-top: 3px;" aria-hidden="true" ></img>   
+
                                 </a><label class="label-style" class="label-style">Chia sẻ</label>
+                               
                             </div>
-                        </div>
-                            
+                            <div id="result-like-stat{{$a->id}}" style="width: 0px!important;">
+                    @if ($a->like->contains('user_id', Auth::user()->id))
+                        @if ($a->like->count() == 1)
                         <hr style="margin-top: 0px;margin-bottom: 0px;">
-                        <div class="stat-info" style="background-color: rgba(204, 204, 204, 0.46);    border: 0.2px #fcf8e3 solid;">
-                        <a  style="margin-left: 25px;cursor: pointer ; text-decoration: none"><img src="images/thumbs-up.png" style="width: 15px; height: 15px; margin-right: 6px; cursor: pointer ;" alt="">Bạn và 4 người khác đã thích</a>
+                        <div class="stat-info ">
+                            <a  class="like-result">
+                                <img src="images/thumbs-up.png" class="like-result-image"  alt="">
+                                Bạn đã thích bài viết này !
+                            </a>
                         </div>
-                       
-                        <div class="post-footer" style="padding-top: 5px;">
-                            <a href="">Xem các trả lời trước</a>
+                        @else
+                        <hr style="margin-top: 0px;margin-bottom: 0px;">
+                        <div class="stat-info ">
+                            <a  class="like-result">
+                                <img src="images/thumbs-up.png" class="like-result-image"  alt="">
+                                    Bạn và {{$a->like->count()-1}} người đã thích bài viết này !
+                            </a>
+                        </div>
+
+                        @endif                    
+                    @else
+                        @if ($a->like->count() == 0)
+                            
+                        @else
+                         <hr style="margin-top: 0px;margin-bottom: 0px;">
+                        <div class="stat-info ">
+                        <a  class="like-result">
+                        <img src="images/thumbs-up.png" class="like-result-image"  alt="">
+                        {{$a->like->count()}} người đã thích bài viết này
+                        
+                        </a>
+                        </div>
+                
+                        @endif
+                    @endif
+                    </div>  
+                    </div>
+                        </div>
+
+                        <div class="post-footer" style="padding-top: 22px;">
                             <ul class="comments-list second{{$a->id}}" id="comment-list{{$a->id}}">
                                 @foreach ($a->comment as $c)
-                                @include('ajax.comment_Delete')
-                                @include('ajax.comment_Like')
-
 
                                 <li class="comment" id="comment-row{{$c->id}}">
+
+                                @include('ajax.comment_Delete')
+                                @include('ajax.comment_Like')
                                     <a class="pull-left" href="#">
                                         <img class="avatar" src="{{  $c->user->avatar  }}" alt="avatar">
                                     </a>
@@ -116,7 +169,7 @@ Home
                                         @else 
                                             <a class="link"   title="" id="comment-like{{$c->id}}">Thích</a> ·
                                         @endif
-                                            <a class="link" onclick="showElem{{$a->id}}()" title="" id="comment-reply">Trả lời</a> ·
+                                            <a class="link"  title="" id="comment-reply">Trả lời</a> ·
                                              @if ($c->user_id == Auth::user()->id)
                                             <a class="link" id="comment-delete{{$c->id}}" title="Delete">Xóa</a> · 
                                             @endif
@@ -189,6 +242,7 @@ Home
                                 var user_id = $('#user_id').val();
                                 var body = $('#body{{$a->id}}').val();
                                 var status_id = $('#status_id{{$a->id}}').val();
+
                                 var comment_block = '<li class="comment" id="comment-row"> <a class="pull-left" href="#"> <img class="avatar" src="{{ Auth::user()->avatar }}" alt="avatar"> </a> <div class="comment-body"> <div class="comment-heading"> <a href="{{ url('/user/'. Auth::user()->id) }}" title=""><h4 class="user"> {{  Auth::user()->name }} </h4></a>· <p class="inline">'+body+'</p> </div> <div class="comment-heading" link="blue" id="comment-heading"><a class="link" title="" id="comment-reply">Trả lời</a> · <a class="link" id="comment-delete" title="Delete">Xóa</a> · </i> <h5 class="time"> vừa xong </h5> </div> </div> </li>';
                                 $('#comment-list{{$a->id}}').append(comment_block);
                                 $('input#body{{$a->id}}').val('');
@@ -198,8 +252,7 @@ Home
                                 data: {user_id:user_id, body:body, status_id:status_id},
                                 success: function( data ) {
                                 $("#comment-list{{$a->id}}").load(location.href + " #comment-list{{$a->id}}");
-                                
-                                }
+                                    }
                                 });
                                 });
                                 </script>
@@ -213,7 +266,12 @@ Home
         </div>
     </div>
 </div>
-
+  <script>
+    var auto_refresh = setInterval(
+    function (){
+        $("#comment-list{{$a->id}}").load(location.href + " #comment-list{{$a->id}}");
+    }, 60000); // refresh every 10000 milliseconds
+  </script>
 <div class="row">
     <div class="paginate">
         {!! $statuses->render() !!}

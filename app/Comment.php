@@ -40,6 +40,7 @@ class Comment extends Model
             $comment->user_id   = $user_id;
             $comment->status_id = $status_id;
             $comment->save();
+            return $comment->id;
 	}
 	public static function remove($comment_id)
 	{

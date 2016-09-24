@@ -19,6 +19,7 @@ class VerifyCsrfToken extends BaseVerifier
         '/home/action/comment/create',
         '/home/action/comment/delete',
         '/home/action/comment/like',
-        '/home/action/comment/unlike'
+        '/home/action/comment/unlike',
+        '/home/action/status/like'
     ];
 }

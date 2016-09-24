@@ -1,5 +1,4 @@
- <div class="row">
-                                      
+ <div class="row">                 
             <!-- Nav tabs --><div class="card">
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="border: 1px;">What's Up {{Auth::user()->name}}</a></li>
@@ -13,7 +12,7 @@
             <div class="panel-body ">
                    {{ Form::token() }}
                     <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
-                    {{Form::textarea('status', null, array('class'=>'form-control status', 'id'=>'body', 'name'=>'status', 'rows'=>'3'))}}
+                    {{Form::textarea('status', null, array('class'=>'form-control status', 'id'=>'body', 'name'=>'status','data-autoresize', 'rows'=>'3'))}}
                             <script>
                                     jQuery.each(jQuery('textarea[data-autoresize]'), function() {
                                     var offset = this.offsetHeight - this.clientHeight;
@@ -23,6 +22,7 @@
                                     };
                                     jQuery(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
                                 });
+
                             </script>
             </div>
             <div class="panel-footer share-buttons borderRoundBottom">

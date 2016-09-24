@@ -3,6 +3,20 @@ background-color: #e9ebee;
 color: #333!important; 
 font-size: 12px!important;
 }
+
+.stat-info{
+  z-index: 999;
+    position: absolute;
+    margin-top: 14px;
+}
+.like-result{
+    color: #31708f;
+    margin-left: 12px;cursor: pointer ; text-decoration: none;
+}
+.like-result-image{
+    width: 15px; height: 15px; margin-right: 6px; cursor: pointer ;
+}
+
 .label-style{
      position: absolute;
     padding-top: 15px;
@@ -121,7 +135,7 @@ background-color: #ABBAC3!important; }
     background-color: transparent!important;
 }
 .comments-box{
-    margin-top: 20px !important;
+    margin-top: 10px !important;
 }
 .popover-privacy{
 

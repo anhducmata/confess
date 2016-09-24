@@ -1,5 +1,4 @@
 <script>
-      /*COMMENT DELETE*/
       $(document).on("click","#comment-like{{$c->id}}",function() {
           $.ajaxSetup({
               headers: {
@@ -7,7 +6,8 @@
               }
           });
           var comment_id = '{{ $c->id }}';
-          var user_id = '{{ Auth::user()->id}}';         
+          var user_id = '{{ Auth::user()->id}}';
+      
           $.ajax({
             type: 'POST',
             data: {comment_id:comment_id, user_id:user_id},
@@ -20,7 +20,6 @@
         });
 </script>
 <script>
-      /*COMMENT DELETE*/
       $(document).on("click","#comment-unlike{{$c->id}}",function() {
           $.ajaxSetup({
               headers: {

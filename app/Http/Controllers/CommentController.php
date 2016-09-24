@@ -23,11 +23,12 @@ class CommentController extends Controller
             $body               = Input::get('body');
             $status_id          = Input::get('status_id');
             
-            Comment::set($user_id,$status_id,$body);
+            $comment_id = Comment::set($user_id,$status_id,$body);
 
             $response = array(
-                'status' => 'success',
-                'msg' => 'add comment successfully'
+                'comment_id' => $comment_id,
+                'status'     => 'success',
+                'msg'        => 'add comment successfully'
                 );
             return Response::json($response);
         }else{

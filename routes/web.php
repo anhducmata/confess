@@ -30,6 +30,12 @@ Route::post('/home/action/postdelete', [
 	'uses' => 'HomeController@postDelete',
 	'as'   => 'post.delete'
 	]);
+Route::post('/home/action/status/like',[
+	'uses' => 'StatusController@postLike',
+	'as'   => 'post.status.like'
+]);
+
+
 Route::post('/home/action/comment/create', [
 	'uses' => 'CommentController@create',
 	'as'   => 'post.comment.create'

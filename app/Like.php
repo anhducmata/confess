@@ -18,4 +18,19 @@ class Like extends Model
 	{
 		return $this->belongsTo('App\Status');
 	}
+	public static function like($status_id, $user_id)
+	{
+		$like = Like::where('status_id', $status_id)->where('user_id', $user_id);
+		if ($like->count() == 0) {
+			$newlike         = new Like;
+			$newlike->status_id = $status_id;			
+			$newlike->user_id   = $user_id;
+			$newlike->save();
+			return 1;
+		}else{
+			$like->delete();
+			return 0;
+		}
+		
+	}
 }
