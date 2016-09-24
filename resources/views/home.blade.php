@@ -167,9 +167,17 @@ Home
                                         @if ($c->commentlike->contains('user_id',Auth::user()->id))
                                             <a class="link"   title="" id="comment-unlike{{$c->id}}">Bỏ thích</a> ·
                                         @else 
-                                            <a class="link"   title="" id="comment-like{{$c->id}}">Thích</a> ·
+                                            <a class="link"   title="" id="comment-like{{$c->id}}" >Thích</a> ·
                                         @endif
-                                            <a class="link"  title="" id="comment-reply">Trả lời</a> ·
+                                            <a class="link"  title="" id="comment-reply{{$c->id}}" for="replyForm{{$c->id}}"  onclick="ShowReply{{$c->id}}()" >Trả lời</a> ·
+                                            <script>
+                                            function ShowReply{{$c->id}}() {
+                                                $('.inputReply').hide();
+                                                  $('#fn{{$c->id}}').show();
+                                                  $('#replyForm{{$c->id}}').focus();
+                                            }
+                                              
+                                            </script>
                                              @if ($c->user_id == Auth::user()->id)
                                             <a class="link" id="comment-delete{{$c->id}}" title="Delete">Xóa</a> · 
                                             @endif
@@ -181,6 +189,23 @@ Home
                                         </div>
                                     </div>
                                     <ul class="comments-list">
+
+                                    <div class="inputReply" id="fn{{$c->id}}" style="display: none; ">                                <img src="{{Auth::user()->avatar}}" style="  width: 18px;
+                                                                    height: 18px;
+                                                                    position: absolute;
+                                                                    border-radius: 30px;
+                                                                    z-index: 999;
+                                                                    left: 83px;
+                                                                    margin-top: 1px;" alt="">
+                                        <input id="replyForm{{$c->id}}" class="form-control" placeholder="Trả lời..." style="    width: 100%;
+                                                        height: 20px;
+                                                        border-top-left-radius: 30px;
+                                                        border-top-right-radius: 5px;
+                                                        border-bottom-right-radius: 5px;
+                                                        border-bottom-left-radius: 30px;
+                                                        border: 1px solid #ccd0d2;
+                                                        padding-left: 25px;
+                                                            font-size: 11.5px;" type="text" /></div>
                                         @foreach ($c->replyComment as $rc)
                                         <li class="comment" >
                                             <div class="feeds">
